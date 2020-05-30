@@ -1,9 +1,20 @@
 package com.InnvoiceGenerator;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class InnvoiceServiceTest {
+    InvoiceServiceGenerator invoiceServiceGenerator = new InvoiceServiceGenerator();
+    RideRepository rideRepository;
+
+    @Before
+    public void setUp()throws Exception{
+        invoiceServiceGenerator =new InvoiceServiceGenerator();
+        rideRepository = new RideRepository();
+
+    }
+
     @Test
     public void givenDistanceAndTime_ShouldReturnTotalFare() {
         InvoiceServiceGenerator invoiceServiceGenerator = new InvoiceServiceGenerator();
@@ -35,7 +46,7 @@ public class InnvoiceServiceTest {
     @Test
     public void givenUserIdAndRides_shouldReturnInvoiceSummary() {
         InvoiceServiceGenerator invoiceServiceGenerator = new InvoiceServiceGenerator();
-        String userId = "cab@invoice.com";
+        String userId = "cab@invoice";
         Rides[] rides = {   new Rides(2.0, 5),
                             new Rides(0.1, 1)
                         };
@@ -43,5 +54,17 @@ public class InnvoiceServiceTest {
         InvoiceSummary summary = invoiceServiceGenerator.getInvoiceSummary(userId);
         InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 30.0);
         Assert.assertEquals(expectedInvoiceSummary, summary);
+    }
+
+    @Test
+    public void givenCategories_WhenRideList_ShouldReturnInvoiceSummary() {
+        InvoiceServiceGenerator invoiceServiceGenerator = new InvoiceServiceGenerator();
+        String userId = "cab@invoice";
+        Rides rides[] = {new Rides(2.0, 5),new Rides(0.1, 1)};
+        Rides rides1[] = {new Rides(2.0, 5),new Rides(0.1, 1)};
+        invoiceServiceGenerator.addRides(userId,rides);
+        InvoiceSummary summary = invoiceServiceGenerator.getInvoiceSummary(userId, InvoiceServiceGenerator.RideCategories.PREMIUM_RIDE);
+        InvoiceSummary expectedSummary = new InvoiceSummary(2,60.0);
+        Assert.assertEquals(summary,expectedSummary);
     }
 }
