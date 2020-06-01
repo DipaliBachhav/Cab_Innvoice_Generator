@@ -3,6 +3,11 @@ package com.InnvoiceGenerator;
 public class InvoiceServiceGenerator {
     private RideRepository rideRepository;
 
+    public InvoiceServiceGenerator() {
+        this.rideRepository = new RideRepository();
+
+    }
+
     public enum RideCategories{
         NORMAL_RIDE,PREMIUM_RIDE;
     }
@@ -12,9 +17,8 @@ public class InvoiceServiceGenerator {
         this.rideCategories = premiumRide;
     }
 
-    public InvoiceServiceGenerator() {
-
-        RideRepository rideRepository = new RideRepository();
+    public InvoiceServiceGenerator(RideRepository rideRepository) {
+        this.rideRepository = rideRepository;
     }
 
 

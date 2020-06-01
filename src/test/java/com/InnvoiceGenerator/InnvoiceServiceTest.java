@@ -2,11 +2,35 @@ package com.InnvoiceGenerator;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.MockitoRule;
 
+import static org.mockito.Mockito.*;
+
+@RunWith(MockitoJUnitRunner.class)
 public class InnvoiceServiceTest {
-    InvoiceServiceGenerator invoiceServiceGenerator = new InvoiceServiceGenerator();
-    RideRepository rideRepository;
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule();
+
+    @Mock
+    public RideRepository rideRepository;
+    CabInvoiceFactory cabInvoiceFactory;
+    RideCategory rideCategory;
+
+    @InjectMocks
+    InvoiceServiceGenerator invoiceServiceGenerator;
+
+
+
+  // InvoiceServiceGenerator invoiceServiceGenerator = new InvoiceServiceGenerator();
+  // RideRepository rideRepository;
 
     @Before
     public void setUp()throws Exception{
@@ -53,7 +77,7 @@ public class InnvoiceServiceTest {
         invoiceServiceGenerator.addRides(userId, rides);
         InvoiceSummary summary = invoiceServiceGenerator.getInvoiceSummary(userId);
         InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 30.0);
-        Assert.assertEquals(expectedInvoiceSummary, summary);
+        Assert.assertEquals(summary,expectedInvoiceSummary);
     }
 
     @Test
@@ -62,7 +86,8 @@ public class InnvoiceServiceTest {
         String userId = "cab@invoice";
         Rides rides[] = {new Rides(2.0, 5),new Rides(0.1, 1)};
         Rides rides1[] = {new Rides(2.0, 5),new Rides(0.1, 1)};
-        invoiceServiceGenerator.addRides(userId,rides);
+        //invoiceServiceGenerator.addRides(userId,rides);
+        when(rideRepository.getRides(ArgumentMatchers.any())).thenReturn(rides);
         InvoiceSummary summary = invoiceServiceGenerator.getInvoiceSummary(userId, InvoiceServiceGenerator.RideCategories.PREMIUM_RIDE);
         InvoiceSummary expectedSummary = new InvoiceSummary(2,60.0);
         Assert.assertEquals(summary,expectedSummary);
