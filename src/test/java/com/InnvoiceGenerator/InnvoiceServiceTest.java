@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
@@ -27,17 +28,11 @@ public class InnvoiceServiceTest {
     @InjectMocks
     InvoiceServiceGenerator invoiceServiceGenerator;
 
-
-
-  // InvoiceServiceGenerator invoiceServiceGenerator = new InvoiceServiceGenerator();
-  // RideRepository rideRepository;
-
     @Before
     public void setUp()throws Exception{
-        invoiceServiceGenerator =new InvoiceServiceGenerator();
-        rideRepository = new RideRepository();
-
+        invoiceServiceGenerator=new InvoiceServiceGenerator(InvoiceServiceGenerator.RideCategories.PREMIUM_RIDE);
     }
+
 
     @Test
     public void givenDistanceAndTime_ShouldReturnTotalFare() {
@@ -86,7 +81,6 @@ public class InnvoiceServiceTest {
         String userId = "cab@invoice";
         Rides rides[] = {new Rides(2.0, 5),new Rides(0.1, 1)};
         Rides rides1[] = {new Rides(2.0, 5),new Rides(0.1, 1)};
-        //invoiceServiceGenerator.addRides(userId,rides);
         when(rideRepository.getRides(ArgumentMatchers.any())).thenReturn(rides);
         InvoiceSummary summary = invoiceServiceGenerator.getInvoiceSummary(userId, InvoiceServiceGenerator.RideCategories.PREMIUM_RIDE);
         InvoiceSummary expectedSummary = new InvoiceSummary(2,60.0);

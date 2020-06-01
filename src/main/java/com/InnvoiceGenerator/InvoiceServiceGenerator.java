@@ -1,23 +1,23 @@
 package com.InnvoiceGenerator;
 
 public class InvoiceServiceGenerator {
-    private RideRepository rideRepository;
+    public RideRepository rideRepository;
 
     public InvoiceServiceGenerator() {
         this.rideRepository = new RideRepository();
 
     }
-
     public enum RideCategories{
         NORMAL_RIDE,PREMIUM_RIDE;
     }
-    RideCategories rideCategories;
+    public  RideCategories rideCategories;
 
     public InvoiceServiceGenerator(RideCategories premiumRide) {
         this.rideCategories = premiumRide;
     }
 
     public InvoiceServiceGenerator(RideRepository rideRepository) {
+        this.rideRepository=new RideRepository();
         this.rideRepository = rideRepository;
     }
 
@@ -39,12 +39,11 @@ public class InvoiceServiceGenerator {
         rideRepository.addRides(userId,rides);
     }
 
-    public InvoiceSummary getInvoiceSummary(String userId, RideCategories premiumRide) {
-        this.rideCategories = premiumRide;
+    public InvoiceSummary getInvoiceSummary(String userId) {
         return this.calculateFare(rideRepository.getRides(userId));
     }
-
-    public InvoiceSummary getInvoiceSummary(String userId) {
+    public InvoiceSummary getInvoiceSummary(String userId, RideCategories premiumRide) {
+        this.rideCategories = premiumRide;
         return this.calculateFare(rideRepository.getRides(userId));
     }
 }

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RideRepository {
-    Map<String, ArrayList<Rides>> userRides = null ;
+    Map<String, ArrayList<Rides>> userRides  ;
 
     public RideRepository() {
         this.userRides = new HashMap<>();
@@ -20,7 +20,6 @@ public class RideRepository {
     }
 
     public Rides[] getRides(String userId) {
-        return this.userRides.get(userId).toArray(new Rides[0]);
+        return  this.userRides.get(userId).toArray(new  Rides[0]);
     }
-
 }

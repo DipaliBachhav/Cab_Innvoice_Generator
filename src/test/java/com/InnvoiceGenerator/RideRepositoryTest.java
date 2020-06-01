@@ -14,9 +14,4 @@ public class RideRepositoryTest {
         Assert.assertEquals(rideRepository.getRides("cab@invoice").length,rides.length);
     }
 
-    /*@Test
-    public void givenUserId_whenFound_shouldThrowException(){
-        RideRepository rideRepository = new RideRepository();
-        rideRepository.getRides("cab@invoice");
-    }*/
 }
